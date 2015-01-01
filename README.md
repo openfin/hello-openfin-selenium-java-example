@@ -35,3 +35,7 @@ All binaries required to run HelloOpenFinTest are in release directory:
 ## Building from Source
 
 To build one jar that includes all dependencies, use the command `mvn assembly:assembly -DdescriptorId=jar-with-dependencies`
+
+## Getting help
+
+Please contact support@openfin.co
