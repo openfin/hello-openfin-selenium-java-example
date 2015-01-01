@@ -1,0 +1,1 @@
+java -DRemoteDriverURL=http://localhost:9515 -DExecPath=OpenFinRVM.exe -DExecArgs=--config="https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/app.json" -DDebuggerAddress=localhost:9090 -jar hello-openfin-selenium-java-jar-with-dependencies.jar com.openfin.HelloOpenFinTest
