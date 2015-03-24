@@ -1,8 +1,7 @@
 package com.openfin;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -60,6 +59,9 @@ public class HelloOpenFinTest {
         }
         options.setExperimentalOption("debuggerAddress", debuggerAddress != null ? debuggerAddress : "localhost:9090");
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+
+        options.setExperimentalOption("forceDevToolsScreenshot", Boolean.TRUE); // required for saving screenshot
+
         capabilities.setCapability(ChromeOptions.CAPABILITY,  options);
 
         System.out.println("Creating remote driver " + remoteDriverURL);
@@ -68,26 +70,38 @@ public class HelloOpenFinTest {
         System.out.println("Got the driver " + driver.getCurrentUrl());
         driver.manage().timeouts().setScriptTimeout(3, TimeUnit.SECONDS);
 
-        if (switchWindow(driver, "Hello OpenFin")) {  // select main window
-            findRunimeVersion(driver);
-            HelloMainPage helloMainPage = PageFactory.initElements(driver, HelloMainPage.class);
-            helloMainPage.showNotification();
+        try {
+            if (switchWindow(driver, "Hello OpenFin")) {  // select main window
+                findRunimeVersion(driver);
+                HelloMainPage helloMainPage = PageFactory.initElements(driver, HelloMainPage.class);
+                helloMainPage.showNotification();
+                sleep(2);
+                helloMainPage.showCPUInfo();
+            }
+
+            if (switchWindow(driver, "Hello OpenFin CPU Info")) {  // select CPU Info window
+                sleep(2);
+                CPUInfoPage cpuInfoPage = PageFactory.initElements(driver, CPUInfoPage.class);
+
+//                File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+//                FileUtils.copyFile(screenshotFile, new File("showCPUInfo.png"));
+                System.out.println("Saving screenshot of CPU Usage window to  showCPUInfo.png ");
+                FileUtils.writeByteArrayToFile(new File("showCPUInfo.png"), ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
+
+                cpuInfoPage.closePage();
+            }
+
+            switchWindow(driver, "Hello OpenFin");  // switch back to main window
+
+            executeJavascript(driver, "fin.desktop.System.exit();");  // ask OpenFin Runtime to exit
             sleep(2);
-            helloMainPage.showCPUInfo();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            driver.quit();
         }
 
-        if (switchWindow(driver, "Hello OpenFin CPU Info")) {  // select CPU Info window
-            sleep(2);
-            CPUInfoPage cpuInfoPage = PageFactory.initElements(driver, CPUInfoPage.class);
-            cpuInfoPage.closePage();
-        }
-
-        switchWindow(driver, "Hello OpenFin");  // switch back to main window
-
-        executeJavascript(driver, "fin.desktop.System.exit();");  // ask OpenFin Runtime to exit
-        sleep(2);
-
-        driver.quit();
     }
 
     /**
