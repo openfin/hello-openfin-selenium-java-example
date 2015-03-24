@@ -58,10 +58,9 @@ public class HelloOpenFinTest {
             options.addArguments(execArgs);
         }
         options.setExperimentalOption("debuggerAddress", debuggerAddress != null ? debuggerAddress : "localhost:9090");
-        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-
         options.setExperimentalOption("forceDevToolsScreenshot", Boolean.TRUE); // required for saving screenshot
 
+        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         capabilities.setCapability(ChromeOptions.CAPABILITY,  options);
 
         System.out.println("Creating remote driver " + remoteDriverURL);
