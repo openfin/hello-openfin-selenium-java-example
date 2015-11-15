@@ -116,10 +116,16 @@ public class HelloOpenFinTest {
         long start = System.currentTimeMillis();
         while (!found) {
             for (String name : webDriver.getWindowHandles()) {
-                webDriver.switchTo().window(name);
-                if (webDriver.getTitle().equals(windowTitle)) {
-                    found = true;
-                    break;
+                try {
+                    webDriver.switchTo().window(name);
+                    if (webDriver.getTitle().equals(windowTitle)) {
+                        found = true;
+                        break;
+                    }
+                } catch (NoSuchWindowException wexp) {
+                    // some windows may get closed during Runtime startup
+                    // so may get this exception depending on timing
+                    System.out.println("Ignoring NoSuchWindowException " + name);
                 }
             }
             Thread.sleep(1000);
