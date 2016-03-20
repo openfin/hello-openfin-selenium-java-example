@@ -2,10 +2,8 @@ package com.openfin;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.FindBy;
 
 import java.io.File;
 import java.net.URL;
@@ -13,9 +11,26 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Test an issue with sendKey to input fields
+ * Example for testing ui-select element of AngularUI with OpenFin and ChromeDriver.
+ *
+ * The sample code has been tested with bootstrap theme in https://github.com/angular-ui/ui-select/blob/master/examples/demo.html
+ *
+ * <p>Selected: {{person.selected}}</p>
+ * <ui-select ng-model="person.selected" theme="bootstrap" ng-disabled="disabled" style="min-width: 300px;" title="Choose a person">
+ * <ui-select-match placeholder="Select a person in the list or search his name/age...">{{$select.selected.name}}</ui-select-match>
+ * <ui-select-choices repeat="person in people | propsFilter: {name: $select.search, age: $select.search}">
+ * <div ng-bind-html="person.name | highlight: $select.search"></div>
+ * <small>
+ * email: {{person.email}}
+ * age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+ * </small>
+ * </ui-select-choices>
+ * </ui-select>
+ *
+ * The code should work for select2 theme as well.
  *
  * Created by wche on 3/8/16.
+ *
  */
 public class AngularUISelectTest {
 
@@ -56,7 +71,6 @@ public class AngularUISelectTest {
 
             WebElement body = driver.findElement(By.tagName("body"));
             List<WebElement> list = body.findElements(By.cssSelector("div.ui-select-container"));
-            System.out.println(String.format("populating input of %d elements", list.size()));
             for (WebElement container: list) {
                 WebElement focusser = container.findElement(By.cssSelector(".ui-select-match"));
                 focusser.click();
@@ -65,8 +79,7 @@ public class AngularUISelectTest {
                 input.sendKeys("Adam");
                 input.sendKeys(Keys.ENTER);
             }
-            Thread.sleep(10000);
-
+            Thread.sleep(10000);  // sleep here so we can see it works
             executeJavascript(driver, "fin.desktop.System.exit();");  // ask OpenFin Runtime to exit
             sleep(2);
 
