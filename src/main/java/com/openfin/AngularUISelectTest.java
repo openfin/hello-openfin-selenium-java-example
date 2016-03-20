@@ -2,6 +2,7 @@ package com.openfin;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  *
  * Created by wche on 3/8/16.
  */
-public class InputTest {
+public class AngularUISelectTest {
 
     /**
      * main method
@@ -49,15 +50,22 @@ public class InputTest {
         driver.manage().timeouts().setScriptTimeout(3, TimeUnit.SECONDS);
 
         try {
-            if (switchWindow(driver, "Hello OpenFin")) {  // select main window
+            if (switchWindow(driver, "AngularJS ui-select")) {  // select main window
                 sleep(1);
             }
 
-            for (int i = 0; i < 10; i++) {
-                String text = String.format("Loop %d", i);
-                populateInputs(driver, text);
-                checkInputs(driver, text);
+            WebElement body = driver.findElement(By.tagName("body"));
+            List<WebElement> list = body.findElements(By.cssSelector("div.ui-select-container"));
+            System.out.println(String.format("populating input of %d elements", list.size()));
+            for (WebElement container: list) {
+                WebElement focusser = container.findElement(By.cssSelector(".ui-select-match"));
+                focusser.click();
+                WebElement input = container.findElement(By.cssSelector("input.ui-select-search"));
+                input.clear();
+                input.sendKeys("Adam");
+                input.sendKeys(Keys.ENTER);
             }
+            Thread.sleep(10000);
 
             executeJavascript(driver, "fin.desktop.System.exit();");  // ask OpenFin Runtime to exit
             sleep(2);
@@ -66,28 +74,6 @@ public class InputTest {
             e.printStackTrace();
         } finally {
             driver.quit();
-        }
-    }
-
-    private static  void populateInputs(WebDriver driver, String text) {
-        WebElement container = driver.findElement(By.id("container"));
-        List<WebElement> list = container.findElements(By.cssSelector("input.text-box"));
-        System.out.println(String.format("populating input of %d elements", list.size()));
-        for (WebElement element: list) {
-            element.clear();
-            element.sendKeys(text);
-        }
-    }
-
-    private static  void checkInputs(WebDriver driver, String text) {
-        WebElement container = driver.findElement(By.id("container"));
-        List<WebElement> list = container.findElements(By.cssSelector("input.text-box"));
-        System.out.println(String.format("checking input of %d elements", list.size()));
-        for (WebElement element: list) {
-            String elementText = element.getAttribute("value");
-            if (!text.equals(elementText)) {
-                System.out.println(String.format("Value mismatch %s %s", elementText, text));
-            }
         }
     }
 
@@ -130,20 +116,6 @@ public class InputTest {
     }
 
     /**
-     *
-     * retrieve version of OpenFin Runtime on currently targeted Window
-     *
-     * @param driver instance of WebDriver
-     *
-     */
-    private static void findRunimeVersion(WebDriver driver) {
-        Object response = executeAsyncJavascript(driver,
-                "var callback = arguments[arguments.length - 1];" +
-                        "fin.desktop.System.getVersion(function(v) { callback(v); } );");
-        System.out.println("OpenFin Runtime version " + response);
-    }
-
-    /**
      * Executes JavaScript in the context of the currently selected window
      *
      * @param driver instance of WebDriver
@@ -153,19 +125,6 @@ public class InputTest {
     private static Object executeJavascript(WebDriver driver, String script) {
         System.out.println("Executing javascript: " + script);
         return ((JavascriptExecutor) driver).executeScript(script);
-    }
-
-    /**
-     * Execute an asynchronous piece of JavaScript in the context of the currently selected frame or
-     * window.
-     *
-     * @param driver instance of WebDriver
-     * @param script javascript to run
-     * @return result of execution
-     */
-    private static Object executeAsyncJavascript(WebDriver driver, String script) {
-        System.out.println("Executing Async javascript: " + script);
-        return ((JavascriptExecutor) driver).executeAsyncScript(script);
     }
 
     /**
@@ -180,59 +139,5 @@ public class InputTest {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Main page of Hello OpenFin app
-     */
-    public static class HelloMainPage {
-        private WebDriver driver;
-        @FindBy(id="desktop-notification")
-        private WebElement notificationUpElement;
-        @FindBy(id="cpu-info")
-        private WebElement cpuInfoElement;
-
-        public HelloMainPage(WebDriver driver) {
-            this.driver = driver;
-        }
-
-        /**
-         * Click Notification button
-         */
-        public void showNotification() {
-            System.out.println("Showing a notification...");
-            this.notificationUpElement.click();
-        }
-
-        /**
-         * Click CPU Info button to show CPU info window
-         */
-        public void showCPUInfo() {
-            System.out.println("Bring up CPU info page...");
-            this.cpuInfoElement.click();
-        }
-    }
-
-    /**
-     *  CPU info of Hollo OpenFin app
-     */
-    public static class CPUInfoPage {
-        private WebDriver driver;
-        @FindBy(id="close-app")
-        private WebElement closeElement;
-
-        public CPUInfoPage(WebDriver driver) {
-            this.driver = driver;
-        }
-
-        /**
-         * Click on X button to close the window
-         */
-        public void closePage() {
-            System.out.println("Closeing CPU Info page");
-            this.closeElement.click();
-        }
-    }
-
-
 
 }
