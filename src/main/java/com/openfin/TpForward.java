@@ -98,7 +98,7 @@ public class TpForward {
                 }
             }
             Thread.sleep(1000);
-            if ((System.currentTimeMillis() - start) > 5*1000) {
+            if ((System.currentTimeMillis() - start) > 10*1000) {
                 break;
             }
         }
