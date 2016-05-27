@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Chromedriver test Example for Hello OpenFin app.
  *
+ * Chromedriver must be running before the test
  *
  * Runtime argument
  *
@@ -53,12 +54,9 @@ public class HelloOpenFinTest {
 
         ChromeOptions options = new ChromeOptions();
         if (execPath != null) {
-            System.out.println("Binary path " + execPath);
-            options.setBinary(new File(execPath));
-            options.addArguments(execArgs);
+            launchOpenfinApp(execPath, execArgs);
         }
         options.setExperimentalOption("debuggerAddress", debuggerAddress != null ? debuggerAddress : "localhost:9090");
-        options.setExperimentalOption("forceDevToolsScreenshot", Boolean.TRUE); // required for saving screenshot
 
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         capabilities.setCapability(ChromeOptions.CAPABILITY,  options);
@@ -101,6 +99,24 @@ public class HelloOpenFinTest {
             driver.quit();
         }
 
+    }
+
+    /**
+     * Launch OpenFin app with installer or RVM
+     *
+     * @param path path to script that launches OpenFin RVM/Runtime
+     * @param args arguments passed to the script
+     * @throws Exception
+     */
+    private static void launchOpenfinApp(String path, String args) throws Exception{
+        String[] cmd = new String[4];
+        cmd[0] = "cmd.exe";
+        cmd[1] = "/C";
+        cmd[2] = path;
+        cmd[3] = args;
+        Process process = Runtime.getRuntime().exec(cmd);
+        int exitVal = process.waitFor();
+        System.out.println("Binary path " + path + " exit value " + exitVal);
     }
 
     /**
