@@ -68,7 +68,7 @@ public class HelloOpenFinTest {
         driver.manage().timeouts().setScriptTimeout(3, TimeUnit.SECONDS);
 
         try {
-            if (switchWindow(driver, "Hello OpenFin")) {  // select main window
+            if (switchWindowByName(driver, "Hello OpenFin")) {  // select main window
                 findRunimeVersion(driver);
                 HelloMainPage helloMainPage = PageFactory.initElements(driver, HelloMainPage.class);
                 helloMainPage.showNotification();
@@ -152,6 +152,51 @@ public class HelloOpenFinTest {
 
         if (!found) {
             System.out.println(windowTitle + " not found");
+        }
+        return found;
+    }
+
+    /**
+     * target a window by name
+     *
+     * @param webDriver instance of WebDriver
+     * @param windowName name to match
+     * @return true if successful
+     * @throws Exception
+     */
+    private static boolean switchWindowByName(WebDriver webDriver, String windowName) throws Exception {
+        boolean found = false;
+        long start = System.currentTimeMillis();
+        while (!found) {
+            for (String handle : webDriver.getWindowHandles()) {
+                try {
+                    webDriver.switchTo().window(handle);
+                    String url = webDriver.getCurrentUrl();
+                    System.out.printf(String.format("checking URL: %s", url));
+                    if (url.startsWith("http")) {
+                        Object response = executeAsyncJavascript(webDriver,
+                                "var callback = arguments[arguments.length - 1];" +
+                                        "if (fin && fin.desktop && fin.desktop.Window) { callback(fin.desktop.Window.getCurrent().name);} else { callback('');};");
+                        System.out.println(String.format("window name %s", response.toString()));
+                        if (response != null && response.toString().equals(windowName)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                } catch (NoSuchWindowException wexp) {
+                    // some windows may get closed during Runtime startup
+                    // so may get this exception depending on timing
+                    System.out.println("Ignoring NoSuchWindowException " + handle);
+                }
+            }
+            Thread.sleep(1000);
+            if ((System.currentTimeMillis() - start) > 5*1000) {
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println(windowName + " not found");
         }
         return found;
     }
