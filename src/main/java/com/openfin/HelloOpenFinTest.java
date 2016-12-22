@@ -68,7 +68,7 @@ public class HelloOpenFinTest {
         driver.manage().timeouts().setScriptTimeout(3, TimeUnit.SECONDS);
 
         try {
-            if (switchWindowByName(driver, "Hello OpenFin")) {  // select main window
+            if (switchWindow(driver, "Hello OpenFin")) {  // select main window
                 findRunimeVersion(driver);
                 HelloMainPage helloMainPage = PageFactory.initElements(driver, HelloMainPage.class);
                 helloMainPage.showNotification();
