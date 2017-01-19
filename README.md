@@ -1,7 +1,7 @@
 hello-openfin-selenium-java-example
 ====================================
 
-Example of Java test code with Chrome Driver on OpenFin Runtime
+Example of Java test code on OpenFin Runtime with Chrome Driver.
 
 ## Source Code
 
@@ -9,7 +9,9 @@ HelloOpenFinTest.java has sample code for testing HTML5 components and OpenFin j
 
 ## Guidelines
 
-Since all HTML5 applications in the OpenFin environment need to be started with OpenFin API, chromeDriver.get(URL) is not supported. Test code needs to start HTML5 app before connecting to Chromedriver.
+Since all HTML5 applications in the OpenFin environment need to be started with OpenFin API, chromeDriver.get(URL) is not supported.
+
+ChromeDriver, by default, starts Chrome browser with various Chrome arguments, including remote debugging port, before running tests.  ChromeOptions.setBinary needs to be called so ChromeDriver can start OpenFin Runtime properly.  RunOpenFin.bat is an example batch file that can be set as 'binary'.
 
 Given there can be multiple applications/windows active in OpenFin Runtime, tests must begin by selecting the targeted window. Each test script has a function that selects the window by matching it's title.
 

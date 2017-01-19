@@ -1,1 +1,6 @@
-java -DRemoteDriverURL=http://localhost:9515 -DExecPath=openfin-installer.exe -DExecArgs=--config="https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/app.json" -DDebuggerAddress=localhost:9090 -jar hello-openfin-selenium-jar-with-dependencies.jar com.openfin.HelloOpenFinTest
+@ECHO OFF
+REM start tests with Selenium Grid running on http://10.37.129.2:8818/wd/hub
+java -DRemoteDriverURL=http://10.37.129.2:8818/wd/hub -DExecPath=RunOpenFin.bat -DExecArgs=--config="https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/app2.json" -jar hello-openfin-selenium-jar-with-dependencies.jar com.openfin.HelloOpenFinTest
+
+REM start tests with standalone ChromeDrive.exe running on localhost:9515
+REM java -DRemoteDriverURL=http://localhost:9515 -DExecPath=RunOpenFin.bat -DExecArgs=--config="https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/app2.json" -jar hello-openfin-selenium-jar-with-dependencies.jar com.openfin.HelloOpenFinTest

@@ -22,14 +22,11 @@ import java.util.concurrent.TimeUnit;
  *
  *   -DDriverPort=9515
  *
- *    -DDebuggerAddress=localhost:9090
- *      Debugging port allocated by OpenFin Runtime.  To use different port, change here and remote app.json for the Runtime
- *
  *    -DRemoteDriverURL=http://localhost:8818/wd/hub
  *      URL to access Selenium server or chromedriver.
  *
- *    -DExecPath=C:\Users\wche\Downloads\chromedriver_win32\OpenFinRVM.exe
- *      Full path to OpenFin RVM.  If missing, OpenFin Runtime is assumed to be running.
+ *    -DExecPath=RunOpenFin.bat
+ *      Full path of batch file to start OpenFin RVM.
  *
  *    -DExecArgs=--config="https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/app.json"
  *      command argument passed to OpenFin RVM, which should be URL of a remote app config
@@ -48,16 +45,12 @@ public class HelloOpenFinTest {
     public static void main(String[] args) throws Exception {
         String execPath = System.getProperty("ExecPath");   // path to OpenFinRVM.exe
         String execArgs = System.getProperty("ExecArgs");   // command arguments for OpenFinRVM.exe, such as --config="app.json"
-        String debuggerAddress = System.getProperty("DebuggerAddress");  // debugger URL for OpenFin Runtime.exe
         String remoteDriverURL = System.getProperty("RemoteDriverURL");  // URL to Selenium server or chromedriver
         WebDriver driver;
 
         ChromeOptions options = new ChromeOptions();
-        if (execPath != null) {
-            launchOpenfinApp(execPath, execArgs);
-        }
-        options.setExperimentalOption("debuggerAddress", debuggerAddress != null ? debuggerAddress : "localhost:9090");
-
+        options.setBinary(execPath);
+        options.addArguments(execArgs);
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         capabilities.setCapability(ChromeOptions.CAPABILITY,  options);
 
@@ -80,10 +73,11 @@ public class HelloOpenFinTest {
                 sleep(2);
                 CPUInfoPage cpuInfoPage = PageFactory.initElements(driver, CPUInfoPage.class);
 
-//                File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-//                FileUtils.copyFile(screenshotFile, new File("showCPUInfo.png"));
-                System.out.println("Saving screenshot of CPU Usage window to  showCPUInfo.png ");
-                FileUtils.writeByteArrayToFile(new File("showCPUInfo.png"), ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
+                // ScreenShot is not supported by 6.0 of Runtime
+                //File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                //FileUtils.copyFile(screenshotFile, new File("showCPUInfo.png"));
+                //System.out.println("Saving screenshot of CPU Usage window to  showCPUInfo.png ");
+                //FileUtils.writeByteArrayToFile(new File("showCPUInfo.png"), ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
 
                 cpuInfoPage.closePage();
             }
