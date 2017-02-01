@@ -11,6 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -58,7 +59,7 @@ public class HelloOpenFinTest {
         driver = new RemoteWebDriver(new URL(remoteDriverURL), capabilities);
 
         System.out.println("Got the driver " + driver.getCurrentUrl());
-        driver.manage().timeouts().setScriptTimeout(3, TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
 
         try {
             if (switchWindow(driver, "Hello OpenFin")) {  // select main window
@@ -73,12 +74,15 @@ public class HelloOpenFinTest {
                 sleep(2);
                 CPUInfoPage cpuInfoPage = PageFactory.initElements(driver, CPUInfoPage.class);
 
-                // ScreenShot is not supported by 6.0 of Runtime
+                // Selenium API for ScreenShot is not supported by 6.0 of Runtime
                 //File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
                 //FileUtils.copyFile(screenshotFile, new File("showCPUInfo.png"));
-                //System.out.println("Saving screenshot of CPU Usage window to  showCPUInfo.png ");
-                //FileUtils.writeByteArrayToFile(new File("showCPUInfo.png"), ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
-
+                // Workaround for taking screenshot
+                String screenShotJS =     "var callback = arguments[arguments.length - 1];" +
+                                "fin.desktop.Window.getCurrent().getSnapshot(data => callback(data));";
+                String encoded64 = (String) executeAsyncJavascript(driver, screenShotJS);
+                byte[] data = Base64.getDecoder().decode(encoded64);
+                FileUtils.writeByteArrayToFile(new File("showCPUInfo.png"), data);
                 cpuInfoPage.closePage();
             }
 
