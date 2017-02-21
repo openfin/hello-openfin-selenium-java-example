@@ -32,6 +32,12 @@ All binaries required to run HelloOpenFinTest are in release directory:
 
 3. run testHelloOpenFin.bat
 
+## Troubleshooting
+
+1. Please remove "devtools_port" from app config json file
+
+2. Version 6.49.17.14+ of Runtime is required.
+
 ## Building from Source
 
 To build one jar that includes all dependencies, use the command `mvn assembly:assembly -DdescriptorId=jar-with-dependencies`
