@@ -30,6 +30,6 @@ echo %startupURL%
 SET openfinLocation=%LocalAppData%\OpenFin
 
 cd %openfinLocation%
-OpenFinRVM.exe --config=%startupURL% --runtime-arguments="--remote-debugging-port=%debuggingPort% --disable-init-reload"
+OpenFinRVM.exe --config=%startupURL% --runtime-arguments="--remote-debugging-port=%debuggingPort% --disable-init-reload --enable-chromium-window-alert"
 
 ENDLOCAL
