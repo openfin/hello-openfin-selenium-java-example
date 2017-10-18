@@ -8,7 +8,7 @@ REM         remoteDriverPath: "/wd/hub",
 
 set PORT=8818
 
-echo "check status on http://localhost:$PORT/grid/console"
+echo "check status on http://localhost:%PORT%/grid/console"
 
 java -jar selenium-server-standalone-3.6.0.jar -role hub -port %PORT%
 
