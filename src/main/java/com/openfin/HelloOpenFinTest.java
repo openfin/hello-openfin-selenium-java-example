@@ -45,13 +45,18 @@ public class HelloOpenFinTest {
      */
     public static void main(String[] args) throws Exception {
         String execPath = System.getProperty("ExecPath");   // path to OpenFinRVM.exe
-        String execArgs = System.getProperty("ExecArgs");   // command arguments for OpenFinRVM.exe, such as --config="app.json"
+        String execArgs = System.getProperty("ExecArgs");   // command arguments for RunOpenFin.bat, such as --config="app.json"
         String remoteDriverURL = System.getProperty("RemoteDriverURL");  // URL to Selenium server or chromedriver
+        String securityRealm = System.getProperty("SecurityRealm");   // security realm passed to RunOpenFin.bat
+
         WebDriver driver;
 
         ChromeOptions options = new ChromeOptions();
         options.setBinary(execPath);
         options.addArguments(execArgs);
+        if (securityRealm != null) {
+            options.addArguments(String.format("--security-realm=%s", securityRealm));
+        }
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         capabilities.setCapability(ChromeOptions.CAPABILITY,  options);
 
