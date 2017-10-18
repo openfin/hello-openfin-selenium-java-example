@@ -42,6 +42,16 @@ All binaries required to run HelloOpenFinTest are in release directory:
 
 To build one jar that includes all dependencies, use the command `mvn assembly:assembly -DdescriptorId=jar-with-dependencies`
 
+## Instructions for Selenium Server
+
+Two example scripts are included in this project to demonstrate use of Selenium Server on localhost.
+
+1. seleniumHub.bat/sh for launching Selenium Grid hub.
+
+2. seleniumNode.bat for launching Selenium Grid node.
+
+3. set RemoteDriverURL=http://localhost:8818/wd/hub
+
 ## Getting help
 
 Please contact support@openfin.co
