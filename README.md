@@ -32,16 +32,10 @@ All binaries required to run HelloOpenFinTest are in release directory:
 2. start chromedriver.exe
 3. run testHelloOpenFin.bat
 
-### Troubleshooting
-1. Please remove "devtools_port" from app config json file
-
-2. Version 6.49.17.14+ of Runtime is required.
-
 ### Building from Source
 To build one jar that includes all dependencies, use the command `mvn assembly:assembly -DdescriptorId=jar-with-dependencies`
 
 ## Instructions for Selenium Server
-
 Two example scripts are included in this project to demonstrate use of Selenium Server on localhost.
 1. seleniumHub.bat/sh for launching Selenium Grid hub.
 2. seleniumNode.bat for launching Selenium Grid node.
