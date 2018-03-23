@@ -28,7 +28,7 @@ In Summary
 ## Run Locally
 All binaries required to run HelloOpenFinTest are in release directory:
 
-1. Install Hello OpenFin app from https://openfin.co/demos/
+1. Install [Hello OpenFin](https://install.openfin.co/download/?config=https%3A%2F%2Fcdn.openfin.co%2Fdemos%2Fhello%2Fapp.json&fileName=HelloOpenFin&supportEmail=support%40openfin.co) App 
 2. start chromedriver.exe
 3. run testHelloOpenFin.bat
 
