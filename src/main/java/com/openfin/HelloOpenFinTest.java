@@ -54,6 +54,7 @@ public class HelloOpenFinTest {
         ChromeOptions options = new ChromeOptions();
         options.setBinary(execPath);
         options.addArguments(execArgs);
+//        options.setExperimentalOption("forceDevToolsScreenshot", Boolean.TRUE);  don't need to set this since default is true in v2.29 of ChromeDriver
         if (securityRealm != null) {
             options.addArguments(String.format("--security-realm=%s", securityRealm));
         }
@@ -79,15 +80,17 @@ public class HelloOpenFinTest {
                 sleep(2);
                 CPUInfoPage cpuInfoPage = PageFactory.initElements(driver, CPUInfoPage.class);
 
-                // Selenium API for ScreenShot is not supported by 6.0 of Runtime
-                //File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-                //FileUtils.copyFile(screenshotFile, new File("showCPUInfo.png"));
-                // Workaround for taking screenshot
-                String screenShotJS =     "var callback = arguments[arguments.length - 1];" +
-                                "fin.desktop.Window.getCurrent().getSnapshot(data => callback(data));";
-                String encoded64 = (String) executeAsyncJavascript(driver, screenShotJS);
-                byte[] data = Base64.getDecoder().decode(encoded64);
-                FileUtils.writeByteArrayToFile(new File("showCPUInfo.png"), data);
+                // Selenium API for ScreenShot supported by 8.0 of Runtime
+                File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                FileUtils.copyFile(screenshotFile, new File("showCPUInfo.png"));
+
+                // Alternative method to take screenshot
+//                String screenShotJS =     "var callback = arguments[arguments.length - 1];" +
+//                                "fin.desktop.Window.getCurrent().getSnapshot(data => callback(data));";
+//                String encoded64 = (String) executeAsyncJavascript(driver, screenShotJS);
+//                byte[] data = Base64.getDecoder().decode(encoded64);
+//                FileUtils.writeByteArrayToFile(new File("showCPUInfo.png"), data);
+
                 cpuInfoPage.closePage();
             }
 
