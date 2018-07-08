@@ -54,7 +54,7 @@ public class HelloOpenFinTest {
         ChromeOptions options = new ChromeOptions();
         options.setBinary(execPath);
         options.addArguments(execArgs);
-//        options.setExperimentalOption("forceDevToolsScreenshot", Boolean.TRUE);  don't need to set this since default is true in v2.29 of ChromeDriver
+        options.setExperimentalOption("forceDevToolsScreenshot", Boolean.TRUE);
         if (securityRealm != null) {
             options.addArguments(String.format("--security-realm=%s", securityRealm));
         }
