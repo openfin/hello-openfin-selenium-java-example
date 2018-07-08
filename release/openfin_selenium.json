@@ -25,6 +25,5 @@
         "version": "stable-v8"
     },
     "splashScreenImage": "https://cdn.openfin.co/demos/hello/splashscreen/splash_hello.png",
-    "shortcut": {},
-    "devtools_port": 12399
+    "shortcut": {}
 }
