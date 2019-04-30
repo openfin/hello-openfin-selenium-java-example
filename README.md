@@ -21,8 +21,7 @@ In Summary
 * OpenFin RunTime must be shut down after a test is completed
 
 ### Assumptions
-* Please remove `devtools_port` from app config json file
-* Version 6.49.17.14+ of Runtime is required
+* Version 10.66.x.x of Runtime is required
 
 ## Launch
 ## Run Locally
