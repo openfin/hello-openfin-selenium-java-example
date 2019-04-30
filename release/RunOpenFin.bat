@@ -8,7 +8,6 @@ SETLOCAL ENABLEDELAYEDEXPANSION
 SETLOCAL ENABLEEXTENSIONS
 
 SET debuggingPort=0
-SET securityRealm="";
 
 :loop  
  IF "%1"=="" GOTO cont  
@@ -19,9 +18,6 @@ SET securityRealm="";
  IF "%opt%" == "--config" (
     SET startupURL=%2
  )
- IF "%opt%" == "--security-realm" (
-    SET securityRealm=%2
- )
 
 
  SHIFT & GOTO loop  
@@ -30,11 +26,10 @@ SET securityRealm="";
 
 echo %debuggingPort%
 echo %startupURL%
-echo %securityRealm%
 
 SET openfinLocation=%LocalAppData%\OpenFin
 
 cd %openfinLocation%
-OpenFinRVM.exe --config=%startupURL% --runtime-arguments="--remote-debugging-port=%debuggingPort% --disable-init-reload --enable-chromium-window-alert --security-realm=%securityRealm% "
+OpenFinRVM.exe --config=%startupURL% --runtime-arguments="--remote-debugging-port=%debuggingPort%"
 
 ENDLOCAL

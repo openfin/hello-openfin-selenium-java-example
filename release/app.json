@@ -21,8 +21,8 @@
     }
   },
   "runtime": {
-    "arguments": "--v=1 --disable-init-reload --enable-chromium-window-alert --allow-http-screen-capture --allow-insecure-localhost ",
-    "version": "8.56.28.36"
+    "arguments": "--v=1 --enable-chromium-window-alert --allow-http-screen-capture --allow-insecure-localhost ",
+    "version": "10.66.39.25"
   },
   "splashScreenImage": "https://cdn.openfin.co/demos/hello/splashscreen/splash_hello.png"
 }
