@@ -11,7 +11,10 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
+import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -47,12 +50,21 @@ public class HelloOpenFinTest {
         String execPath = System.getProperty("ExecPath");   // path to OpenFinRVM.exe
         String execArgs = System.getProperty("ExecArgs");   // command arguments for RunOpenFin.bat, such as --config="app.json"
         String remoteDriverURL = System.getProperty("RemoteDriverURL");  // URL to Selenium server or chromedriver
+        String debuggerAddress = System.getProperty("DebuggerAddress");
 
         WebDriver driver;
 
         ChromeOptions options = new ChromeOptions();
         options.setBinary(execPath);
         options.addArguments(execArgs);
+        if (debuggerAddress != null) {
+            // if devtools_port is set in app.json and ChromeDriver needs to communicate on that port,  set the following propery
+            // to be the same as devtools_port
+            // if debuggerAddress is set,  ChromeDriver does NOT start "binary" and assumes it is already running,
+            // it needs to start separately
+            options.setExperimentalOption("debuggerAddress", debuggerAddress);
+            launchOpenfinApp(execPath, execArgs);
+        }
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         capabilities.setCapability(ChromeOptions.CAPABILITY,  options);
 
@@ -110,14 +122,15 @@ public class HelloOpenFinTest {
      * @throws Exception
      */
     private static void launchOpenfinApp(String path, String args) throws Exception{
-        String[] cmd = new String[4];
-        cmd[0] = "cmd.exe";
-        cmd[1] = "/C";
-        cmd[2] = path;
-        cmd[3] = args;
-        Process process = Runtime.getRuntime().exec(cmd);
-        int exitVal = process.waitFor();
-        System.out.println("Binary path " + path + " exit value " + exitVal);
+        System.out.println(String.format("Starting %s %s", path, args));
+        List<String> list = new ArrayList<String>();
+        list.add("cmd.exe");
+        list.add("/C");
+        list.add(path);
+        list.add(args);
+        ProcessBuilder pb = new ProcessBuilder(list);
+        pb.inheritIO();
+        pb.start();
     }
 
     /**
