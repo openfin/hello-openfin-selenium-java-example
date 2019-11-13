@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -73,14 +74,21 @@ public class HelloOpenFinTest {
 
         System.out.println("Got the driver " + driver.getCurrentUrl());
         driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
+        
 
         try {
             if (switchWindow(driver, "Hello OpenFin")) {  // select main window
                 findRunimeVersion(driver);
-                HelloMainPage helloMainPage = PageFactory.initElements(driver, HelloMainPage.class);
-                helloMainPage.showNotification();
-                sleep(2);
-                helloMainPage.showCPUInfo();
+//                HelloMainPage helloMainPage = PageFactory.initElements(driver, HelloMainPage.class);
+//                helloMainPage.showNotification();
+//                sleep(2);
+//                helloMainPage.showCPUInfo();
+
+                WebElement desktopNotificationButton = driver.findElement(By.id("desktop-notification"));
+                WebElement cpuInfoButton = driver.findElement(By.id("cpu-info"));
+                
+                Actions actions = new Actions(driver);
+                actions.moveToElement(desktopNotificationButton).click().moveToElement(cpuInfoButton).click().perform();
             }
 
             if (switchWindow(driver, "Hello OpenFin CPU Info")) {  // select CPU Info window

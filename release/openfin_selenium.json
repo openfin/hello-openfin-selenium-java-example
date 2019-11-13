@@ -23,7 +23,7 @@
     },
     "runtime": {
         "arguments": "--v=1",
-        "version": "10.66.39.25"
+        "version": "9.61.38.43"
     },
     "splashScreenImage": "https://cdn.openfin.co/demos/hello/splashscreen/splash_hello.png",
     "shortcut": {}
