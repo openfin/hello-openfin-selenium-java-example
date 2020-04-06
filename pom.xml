@@ -40,7 +40,7 @@
             <configuration>
               <archive>
                 <manifest>
-                  <mainClass>com.openfin.HelloOpenFinTest</mainClass>
+                  <mainClass>com.openfin.OpenFinPlatformMessagingTest</mainClass>
                 </manifest>
               </archive>
             </configuration>
