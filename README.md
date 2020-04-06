@@ -6,6 +6,8 @@ Example of Java test code on OpenFin Runtime with Chrome Driver.
 ### Source Code
 HelloOpenFinTest.java has sample code for testing HTML5 components and OpenFin javascript adapter in Hello OpenFin demo application.
 
+OpenFinPlatformMessagingTest.java has sample code for testing HTML5 components and OpenFin javascript adapter in a sample OpenFin Platform based demo application.
+
 ### Guidelines
 Since all HTML5 applications in the OpenFin environment need to be started with OpenFin API, chromeDriver.get(URL) is not supported.
 
@@ -21,7 +23,7 @@ In Summary
 * OpenFin RunTime must be shut down after a test is completed
 
 ### Assumptions
-* Version 10.66.x.x of Runtime is required
+* Version 10.66.x.x+ of Runtime is required (15.80.49.30+ if you are running an OpenFin Platform based application)
 
 ## Launch
 ## Run Locally
@@ -31,8 +33,13 @@ All binaries required to run HelloOpenFinTest are in release directory:
 2. start chromedriver.exe
 3. run testHelloOpenFin.bat
 
+To run the Platform Messaging Sample we assume you have either installed the Hello OpenFin app above or you already have the OpenFin RVM installed by installing some other OpenFin Application.
+
+1. start chromedriver.exe
+2. run testOpenFinPlatformMessaging.bat
+
 ### Building from Source
-To build one jar that includes all dependencies, use the command `mvn assembly:assembly -DdescriptorId=jar-with-dependencies`
+To build one jar that includes all dependencies, use the command `mvn assembly:assembly -DdescriptorId=jar-with-dependencies` (ensure you have maven downloaded and setup and set in your PATH). Once the hello-openfin-selenium-jar-with-dependencies.jar is built ensure it is copied to the release folder before running the .bat file.
 
 ## Instructions for Selenium Server
 Two example scripts are included in this project to demonstrate use of Selenium Server on localhost.
