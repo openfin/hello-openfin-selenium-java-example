@@ -20,9 +20,6 @@ In Summary
 * [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/)  must be started before tests are run
 * OpenFin RunTime must be shut down after a test is completed
 
-### Assumptions
-* Version 10.66.x.x of Runtime is required
-
 ## Launch
 ## Run Locally
 All binaries required to run HelloOpenFinTest are in release directory:
