@@ -24,7 +24,8 @@ import java.util.concurrent.TimeUnit;
  *
  * Runtime argument
  *
- *   -DDriverPort=9515
+ *   --DDebuggerAddress=localhost:9090
+ *      debugging port set by Runtime
  *
  *    -DRemoteDriverURL=http://localhost:8818/wd/hub
  *      URL to access Selenium server or chromedriver.
@@ -64,6 +65,9 @@ public class HelloOpenFinTest {
             // it needs to start separately
             options.setExperimentalOption("debuggerAddress", debuggerAddress);
             launchOpenfinApp(execPath, execArgs);
+        } else {
+            System.out.println("missing debuggerAddress ");
+            System.exit(1);
         }
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         capabilities.setCapability(ChromeOptions.CAPABILITY,  options);
@@ -73,6 +77,8 @@ public class HelloOpenFinTest {
 
         System.out.println("Got the driver " + driver.getCurrentUrl());
         driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         try {
             if (switchWindow(driver, "Hello OpenFin")) {  // select main window
