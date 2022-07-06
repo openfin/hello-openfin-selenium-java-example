@@ -17,7 +17,7 @@ Since the OpenFin Runtime is started by OpenFinRVM, Chromedriver does not have d
 
 In Summary
 * Tests must target specific windows
-* [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/)  must be started before tests are run
+* [ChromeDriver](https://chromedriver.storage.googleapis.com/index.html)  must be started before tests are run
 * OpenFin RunTime must be shut down after a test is completed
 
 ## Launch
