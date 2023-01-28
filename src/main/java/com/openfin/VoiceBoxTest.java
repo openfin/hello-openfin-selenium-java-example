@@ -42,7 +42,7 @@ public class VoiceBoxTest {
         options.setExperimentalOption("debuggerAddress", debuggerAddress != null ? debuggerAddress : "localhost:9090");
         options.setExperimentalOption("forceDevToolsScreenshot", Boolean.TRUE); // required for saving screenshot
 
-        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(ChromeOptions.CAPABILITY,  options);
 
         boolean keepRunning = true;

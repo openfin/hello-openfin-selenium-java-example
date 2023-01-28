@@ -2,6 +2,7 @@ package com.openfin;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -69,11 +70,9 @@ public class HelloOpenFinTest {
             System.out.println("missing debuggerAddress ");
             System.exit(1);
         }
-        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-        capabilities.setCapability(ChromeOptions.CAPABILITY,  options);
 
         System.out.println("Creating remote driver " + remoteDriverURL);
-        driver = new RemoteWebDriver(new URL(remoteDriverURL), capabilities);
+        driver = new RemoteWebDriver(new URL(remoteDriverURL), options);
 
         System.out.println("Got the driver " + driver.getCurrentUrl());
         driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);

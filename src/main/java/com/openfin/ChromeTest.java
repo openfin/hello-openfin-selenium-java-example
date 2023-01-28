@@ -28,7 +28,7 @@ public class ChromeTest {
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("forceDevToolsScreenshot", Boolean.TRUE); // required for saving screenshot
 
-        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(ChromeOptions.CAPABILITY,  options);
 
         System.out.println("Creating remote driver " + remoteDriverURL);
