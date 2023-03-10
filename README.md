@@ -41,6 +41,7 @@ Two example scripts are included in this project to demonstrate use of Selenium 
 * This is a starter example and intended to demonstrate to app providers a sample of how to approach an implementation. There are potentially other ways to approach it and alternatives could be considered. 
 * This is an open source project and all are encouraged to contribute.
 * Its possible that the repo is not actively maintained.
+* As of runtime 29+,  a new, single renderer process can appear if using view visibility settings in platfowm windows. This process will always have the URL `openfin://blank` and can be filtered out if desired.
 
 ## License
 MIT
